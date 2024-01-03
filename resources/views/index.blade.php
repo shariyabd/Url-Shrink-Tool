@@ -27,7 +27,7 @@
                 <img src="{{ asset('frontend/images/Black logo - no background.png') }}" alt="">
             </div>
             <div class="right-item">
-                {{-- <a href="{{route('dashboard')}}" class="getting-start">Getting Start</a> --}}
+                <a href="{{route('dashboard')}}" class="getting-start">Getting Start</a>
             </div>
         </div>
     </nav>
@@ -41,7 +41,7 @@
                     manageablelinks.
                     With our service, you can easily convert long URLs into shorter ones that are easier
                     toshare,remember, and use. Get started now and simplify your links!</p>
-                {{-- <a href="{{route('dashboard')}}" class="try-free">Try For Free</a> --}}
+                <a href="{{route('dashboard')}}" class="try-free">Try For Free</a>
             </div>
             <div class="right-item">
                 <img src="{{ asset('frontend/images/man.png') }}" alt="">

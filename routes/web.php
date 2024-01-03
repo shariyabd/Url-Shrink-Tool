@@ -28,4 +28,17 @@ Route::get('/clear', function () {
 Route::get('/', [HomeController::class, 'home'])->name('homepage');
 
 
+Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::post('/login/store', [LoginController::class, 'store'])->name('login.store');
+Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
+Route::post('/register-store', [RegisterController::class, 'store'])->name('register.store');
 
+
+
+Route::get('eamil/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
+Route::get('forgot-password', [ResetPasswordController::class, 'resetForm'])->name('user.password.get');
+Route::post('/forgot-password', [ResetPasswordController::class, 'submitForm'])->name('user.password.post');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetPasswordForm'])->name('user.password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'passwordUpdate'])->name('password.update');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'is_verify_email'])->name('dashboard');
