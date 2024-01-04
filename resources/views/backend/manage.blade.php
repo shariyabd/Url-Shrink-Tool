@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 @endpush
 @extends('backend.layout.app')
-@include('backend.edit')
+@include('backend.loader')
 @section('content')
     <div class="container mt-5">
         <div class="container-fluid">

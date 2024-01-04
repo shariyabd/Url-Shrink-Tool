@@ -1,4 +1,5 @@
 @include('backend.includes.head')
+@include('backend.loader')
 <div class="nk-main ">
     <!-- wrap @s -->
     <div class="nk-header nk-header-fixed is-light">

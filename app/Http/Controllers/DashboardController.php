@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class DashboardController extends Controller
 {
-    // use ResponseTrait;
+    use ResponseTrait;
     public function index()
     {
         if (Auth::check()) {

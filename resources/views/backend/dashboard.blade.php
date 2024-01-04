@@ -31,6 +31,7 @@
             </div>
         </div>
     </div>
+   @include('backend.loader')
     @if (Session::has('success'))
         @push('js')
             <script>
@@ -47,6 +48,7 @@
     @endif
 @endsection
 @push('js')
+   
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 

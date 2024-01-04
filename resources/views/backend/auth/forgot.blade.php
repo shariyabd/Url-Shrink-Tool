@@ -2,6 +2,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
 @endsection
 @include('backend.includes.head')
+@include('backend.loader')
 <div class="nk-main ">
     <nav>
         <div class="nav-content">
