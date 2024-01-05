@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Models\UserVerify;
+use App\Services\Register;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\VerifyEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Session;
 
 class RegisterController extends Controller
@@ -17,60 +20,30 @@ class RegisterController extends Controller
     public function create()
     {
         return view('backend.auth.register');
+    
     }
 
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8',
-        ]);
+    public function store(RegisterRequest $request, Register $register)
+{
+    $validatedData = $request->validated();
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        $token = Str::random(64);
-
-        UserVerify::create([
-            'user_id' => $user->id,
-            'token' => $token
-        ]);
-
-        Mail::send('backend.email.emailVerification', ['token' => $token], function ($message) use ($request) {
-            $message->to($request->email);
-            $message->subject('Email Verification Mail');
-        });
-        
-        return redirect()->back()->with('message', 'We have sent you an link to your email for verify. Plese check!');
-        // return redirect(route('frontend.dashboard'))->withSuccess('Great! You have successfully registered and logged in.');
-
-
+    $user = $register->store($validatedData);
+    if($user) {
+        return redirect()->back()->with('message', 'We have sent you a link to your email for verification. Please check!');
     }
+}
 
-     public function verifyAccount($token)
+
+
+     public function verifyAccount($token, VerifyEmail $verifyEmail)
     {
-        $verifyUser = UserVerify::where('token', $token)->first();
-  
-        $message = 'Sorry your email cannot be identified.';
-  
-        if(!is_null($verifyUser) ){
-            $user = $verifyUser->user;
-              
-            if(!$user->is_email_verified) {
-                $verifyUser->user->is_email_verified = 1;
-                $verifyUser->user->save();
-                $message = "Your e-mail is verified. You can now login.";
-                
-            } else {
-                $message = "Your e-mail is already verified. You can now login.";
-            }
+    $verify = $verifyEmail->verifyAccount($token);
+        if($verify){
+
+            return redirect()->route('login')->with('message', "Your e-mail is verified. You can now login.");
+        }else{
+            return redirect()->route('register')->with('message', "Sorry your email cannot be identified.");
         }
-  
-      return redirect()->route('login')->with('message', $message);
     }
 
 }

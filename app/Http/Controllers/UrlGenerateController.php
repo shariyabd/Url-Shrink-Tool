@@ -29,6 +29,7 @@ class UrlGenerateController extends Controller
         if ($url) {
             return $this->successResponse('Url generated successfully.', [
                 'short_url' => $url->short_url,
+                
             ]);
         } else {
             return $this->errorResponse('Failed to generate URL.');
